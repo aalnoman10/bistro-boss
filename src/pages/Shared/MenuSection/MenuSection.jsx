@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Btn } from "../../../components/Btn/Btn";
 import Cover from "../Cover/Cover";
 import ProductItems from "../ProductItems/ProductItems";
@@ -14,7 +15,7 @@ const MenuSection = ({ title, img, text, items }) => {
                     />)
                 }
             </div>
-            <Btn />
+            <Link to="/shop"><Btn text="view full menu" /></Link>
         </section>
     );
 };
