@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../Proveider/AuthProveider";
 
@@ -19,6 +20,10 @@ const NavBar = () => {
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/menu'>Menu</Link></li>
         <li><Link to='/shop'>Shop</Link></li>
+        <li><Link to='/'>
+            <FaShoppingCart size={26}/>
+            <div className="badge badge-secondary -ml-4 pl-1 -mt-4">+0</div>
+        </Link></li>
         {
             user && <li onClick={handleLogOut}><span>Logout</span></li>
         }
@@ -38,12 +43,12 @@ const NavBar = () => {
                     </div>
                     <a className="btn btn-ghost normal-case text-xl">Bistro Boss</a>
                 </div>
-                <div className="navbar-center hidden lg:flex">
+                <div className="navbar-end w-full hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
                         {navOptions}
                     </ul>
                 </div>
-                <div className="navbar-end">
+                <div className="w-20">
                     {!user ? <Link to='/login'>Login</Link> : <img className="w-12 h-12 rounded-full" title={user?.displayName} src={user?.photoURL} />}
                 </div>
             </div>
