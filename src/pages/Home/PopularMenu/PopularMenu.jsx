@@ -1,19 +1,11 @@
-import { useEffect, useState } from "react";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import MenuItem from "../../Shared/MenuItem/MenuItem";
 import { Btn } from "../../../components/Btn/Btn";
-
+import useMenu from "../../../hooks/useMenu";
 
 const PopularMenu = () => {
-    const [menu, setMenu] = useState([]);
-    useEffect(() => {
-        fetch('menu.json')
-            .then(res => res.json())
-            .then(data => {
-                const popularItems = data.filter(item => item.category === 'popular');
-                setMenu(popularItems)
-            })
-    }, [])
+    const menu = useMenu('popular');
+
     return (
         <section className="mb-12">
             <SectionTitle
@@ -28,7 +20,7 @@ const PopularMenu = () => {
                     ></MenuItem>)
                 }
             </div>
-            <Btn />
+            <Btn text={"view full menu"}/>
         </section>
     );
 };
