@@ -1,33 +1,49 @@
+import { useContext } from 'react';
 import { Btn } from '../../../components/Btn/Btn';
+import { AuthContext } from '../../../Proveider/AuthProveider';
+import { Navigate, useLocation } from 'react-router-dom';
+import useCarts from '../../../hooks/useCarts';
 
 const Product = ({ item }) => {
 
-    const { image, name, recipe, price, _id } = item
+    const { image, name, recipe, price, category, _id } = item
+    const { user } = useContext(AuthContext);
+    const [, , refetch] = useCarts()
+    const location = useLocation();
 
-    const ha = (item) => {
-        console.log(item);
+    const handlerAddTocart = () => {
+        if (user && user?.email) {
+            const menuItem = {
+                menuItemId: _id,
+                email: user?.email,
+                name,
+                category,
+                image,
+                price
+            }
 
-        const menuItem = {
-            menuItemId: _id,
-            name,
-            image,
-            price
+            fetch(`http://localhost:5000/carts`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(menuItem)
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.insertedId) {
+                        refetch();
+                        alert("item added successfull");
+                    }
+                });
         }
-
-        console.log(menuItem);
-
-        // todo 
-        fetch(`http://localhost:5000/carts`, {
-            method: "POST",
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(menuItem)
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-            });
+        else {
+            const sureConframe = confirm("Login to Add item");
+            if (sureConframe) {
+                console.log(sureConframe);
+                <Navigate to='/login' state={{ from: location }} replace={true} />
+            }
+        }
     }
 
     return (
@@ -37,7 +53,7 @@ const Product = ({ item }) => {
                 <h2 className="card-title">{name}</h2>
                 <p>{recipe}</p>
                 <div className="card-actions">
-                    <span onClick={() => ha(item)}><Btn text="Add to cart" /></span>
+                    <span onClick={handlerAddTocart}><Btn text="Add to cart" /></span>
                 </div>
             </div>
         </div>

@@ -2,9 +2,11 @@ import { useContext } from "react";
 import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../Proveider/AuthProveider";
+import useCarts from "../../../hooks/useCarts";
 
 const NavBar = () => {
     const { user, setUser, logOut } = useContext(AuthContext)
+    const [, cart] = useCarts()
 
     const handleLogOut = () => {
         logOut()
@@ -20,9 +22,9 @@ const NavBar = () => {
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/menu'>Menu</Link></li>
         <li><Link to='/shop'>Shop</Link></li>
-        <li><Link to='/'>
-            <FaShoppingCart size={26}/>
-            <div className="badge badge-secondary -ml-4 pl-1 -mt-4">+0</div>
+        <li><Link to='/dashboard/cart'>
+            <FaShoppingCart size={26} />
+            <div className="badge badge-secondary -ml-4 pl-1 -mt-4">{cart.length}</div>
         </Link></li>
         {
             user && <li onClick={handleLogOut}><span>Logout</span></li>
@@ -48,7 +50,7 @@ const NavBar = () => {
                         {navOptions}
                     </ul>
                 </div>
-                <div className="w-20">
+                <div className="md:w-20 w-full flex md:block justify-end">
                     {!user ? <Link to='/login'>Login</Link> : <img className="w-12 h-12 rounded-full" title={user?.displayName} src={user?.photoURL} />}
                 </div>
             </div>

@@ -7,6 +7,10 @@ import Menu from "../pages/Menu/Menu";
 import Shop from "../pages/Shop/Shop";
 import Login from "../pages/Login/Login/Login";
 import Resister from "../pages/Login/Resister/Resister";
+import Dashboard from "../Layout/Dashboard";
+import DashboardHome from "../pages/Daseboad/DashboardHome/DashboardHome";
+import DashboardCarts from "../pages/Daseboad/DashboardCarts/DashboardCarts";
+import PrivateRoutes from "./PrivateRoutes";
 
 
 export const router = createBrowserRouter([
@@ -36,4 +40,18 @@ export const router = createBrowserRouter([
       },
     ]
   },
+  {
+    path: '/dashboard',
+    element: <PrivateRoutes><Dashboard /></PrivateRoutes>,
+    children: [
+      {
+        path: '/dashboard',
+        element: <DashboardHome />
+      },
+      {
+        path: '/dashboard/cart',
+        element: <DashboardCarts />
+      },
+    ]
+  }
 ]);
